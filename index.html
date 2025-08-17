@@ -1,0 +1,710 @@
+<!doctype html> 
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Undangan Dimas & Ella</title>
+  <meta name="description" content="Undangan pernikahan Dimas & Ella — September 2025, Sidoarjo." />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Dancing+Script:wght@700&family=Great+Vibes&family=Cinzel:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome untuk ikon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root{
+      --primary: rgb(18, 52, 88);          /* biru tua (sesuai undangan.html) */
+      --secondary: rgb(212, 201, 190);    /* krem (sesuai undangan.html) */
+      --accent: rgb(173, 162, 151);       /* krem gelap (sesuai undangan.html) */
+      --dark: rgb(3, 3, 3);               /* hitam pekat (sesuai undangan.html) */
+      --light: rgb(241, 239, 236);        /* putih krem (sesuai undangan.html) */
+      --card-bg: rgba(241, 239, 236, 0.95); /* semi-transparent putih krem */
+      --radius: 16px;
+      --shadow: 0 15px 35px rgba(0,0,0,.15);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Montserrat', sans-serif;
+      color:var(--dark);
+      background:url('bg.jpg') center/cover no-repeat fixed;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Overlay biru tua (sesuai undangan.html) */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(18, 52, 88, 0.7);
+      z-index: -1;
+    }
+    
+    /* Container utama */
+    .invitation-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    
+    /* Panel konten */
+    .invitation-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1.2s ease forwards 0.8s;
+      width: 100%;
+      max-width: 500px;
+      margin: 60px 0;
+      border: 1px solid rgba(212, 201, 190, 0.3);
+      z-index: 3;
+    }
+    
+    /* Ornamen sebagai border/frame di dalam kotak */
+    .ornament-frame {
+      position: absolute;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .ornament-frame.top {
+      top: 10px;
+      transform: translateY(-30%);
+    }
+    
+    .ornament-frame.bottom {
+      bottom: 10px;
+      transform: translateY(30%);
+    }
+    
+    .ornament-frame img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      opacity: 0.8;
+    }
+    
+    /* Efek dekoratif di dalam card */
+    .invitation-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+      z-index: 2;
+    }
+    
+    .invitation-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+      z-index: 2;
+    }
+    
+    /* Subtitle dengan font yang lebih elegan */
+    .subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 40px;
+      font-weight: 500;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1s;
+      position: relative;
+      display: inline-block;
+      z-index: 3;
+    }
+    
+    /* Nama pasangan dengan font yang lebih elegan */
+    .couple-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(60px, 10vw, 80px);
+      line-height: 1;
+      margin-bottom: 25px;
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      animation: scaleIn 1s ease forwards 1.2s;
+      font-weight: 700;
+      z-index: 3;
+    }
+    
+    /* Teks "Are You Invited" */
+    .invitation-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(20px, 3.5vw, 24px);
+      color: var(--dark);
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.4s;
+      font-weight: 400;
+      letter-spacing: 1px;
+      z-index: 3;
+    }
+    
+    /* Nama tamu */
+    .guest-container {
+      margin: 5px 0 25px;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards 1.8s;
+      z-index: 3;
+    }
+    
+    .guest-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 4vw, 28px);
+      font-weight: 700;
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+      line-height: 1.2;
+    }
+    
+    /* Countdown */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: clamp(10px, 2vw, 15px);
+      margin: 35px 0;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards 2s;
+      flex-wrap: wrap;
+      z-index: 3;
+    }
+    
+    .countdown-item {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 15px 10px;
+      min-width: clamp(60px, 12vw, 70px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: var(--transition);
+      border: 1px solid rgba(18, 52, 88, 0.2);
+    }
+    
+    .countdown-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    
+    .countdown-value {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+    
+    .countdown-label {
+      font-size: clamp(10px, 2vw, 12px);
+      color: var(--dark);
+      margin-top: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    
+    /* Tombol dengan icon amplop */
+    .button-container {
+      margin-top: 25px;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 2.2s;
+      z-index: 3;
+    }
+    
+    .open-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 45px;
+      background: var(--primary);
+      color: var(--light);
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: clamp(15px, 2.5vw, 16px);
+      text-decoration: none;
+      border-radius: 50px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: 0 8px 20px rgba(18, 52, 88, 0.3);
+      letter-spacing: 1px;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .open-button i {
+      font-size: clamp(16px, 2.8vw, 18px);
+      color: var(--light);
+    }
+    
+    .open-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.7s ease;
+    }
+    
+    .open-button:hover::before {
+      left: 100%;
+    }
+    
+    .open-button:hover {
+      background: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(173, 162, 151, 0.4);
+    }
+    
+    /* Musik toggle */
+    .music-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: var(--light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      z-index: 100;
+      transition: var(--transition);
+    }
+    
+    .music-toggle:hover {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+    
+    .music-toggle.playing {
+      animation: pulse 2s infinite;
+    }
+    
+    /* Animasi */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(18, 52, 88, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(18, 52, 88, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(18, 52, 88, 0); }
+    }
+    
+    /* Responsive untuk PC */
+    @media (min-width: 1024px) {
+      .invitation-container {
+        padding: 40px;
+      }
+      
+      .invitation-card {
+        margin: 100px 0;
+        padding: 70px 50px;
+      }
+      
+      .ornament-frame img {
+        max-width: 450px;
+      }
+    }
+    
+    /* Responsive untuk Tablet */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .invitation-container {
+        padding: 30px;
+      }
+      
+      .invitation-card {
+        margin: 80px 0;
+        padding: 60px 40px;
+        max-width: 600px;
+      }
+      
+      .ornament-frame img {
+        max-width: 400px;
+      }
+    }
+    
+    /* Responsive untuk Mobile */
+    @media (max-width: 767px) {
+      .invitation-container {
+        padding: 15px;
+      }
+      
+      .invitation-card {
+        margin: 50px 0;
+        padding: 50px 30px;
+        max-width: 100%;
+      }
+      
+      .ornament-frame img {
+        max-width: 300px;
+      }
+      
+      .music-toggle {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
+    }
+    
+    /* Responsive untuk Mobile Kecil */
+    @media (max-width: 480px) {
+      .invitation-container {
+        padding: 10px;
+      }
+      
+      .invitation-card {
+        margin: 40px 0;
+        padding: 40px 25px;
+      }
+      
+      .ornament-frame img {
+        max-width: 250px;
+      }
+      
+      .countdown-container {
+        gap: 8px;
+      }
+      
+      .countdown-item {
+        min-width: 55px;
+        padding: 10px 6px;
+      }
+      
+      .open-button {
+        padding: 12px 35px;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="invitation-container">
+    <!-- Kartu undangan -->
+    <div class="invitation-card">
+      <!-- Ornamen sebagai frame di dalam kotak - bagian atas -->
+      <div class="ornament-frame top">
+        <img src="floral-top.png" alt="Ornamen atas">
+      </div>
+      
+      <!-- Konten undangan -->
+      <div class="subtitle">The Wedding Of</div>
+      <h1 class="couple-name">Dimas & Ella</h1>
+      
+      <!-- Teks "Are You Invited" -->
+      <div class="invitation-text">are you invited</div>
+      
+      <!-- Nama tamu -->
+      <div class="guest-container">
+        <div class="guest-name" id="guest-name">Tamu Undangan</div>
+      </div>
+      
+      <!-- Countdown -->
+      <div class="countdown-container">
+        <div class="countdown-item">
+          <div class="countdown-value" id="days">00</div>
+          <div class="countdown-label">Hari</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="hours">00</div>
+          <div class="countdown-label">Jam</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="minutes">00</div>
+          <div class="countdown-label">Menit</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="seconds">00</div>
+          <div class="countdown-label">Detik</div>
+        </div>
+      </div>
+      
+      <!-- Tombol buka dengan icon amplop -->
+      <div class="button-container">
+        <a href="undangan.html" class="open-button" id="openButton">
+          <i class="fas fa-envelope-open-text"></i>
+          Buka Undangan
+        </a>
+      </div>
+      
+      <!-- Ornamen sebagai frame di dalam kotak - bagian bawah -->
+      <div class="ornament-frame bottom">
+        <img src="floral-bottom.png" alt="Ornamen bawah">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Musik toggle -->
+  <div class="music-toggle playing" id="music-toggle">
+    <i class="fas fa-music"></i>
+  </div>
+  
+  <!-- Audio element tersembunyi dengan autoplay -->
+  <audio id="bg-music" autoplay loop>
+    <source src="jd.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung elemen audio.
+  </audio>
+  
+  <script>
+    // Ambil nama tamu dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const guestName = urlParams.get('to');
+    
+    if (guestName) {
+      // Format nama tamu (title case)
+      const formattedName = guestName
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+      
+      document.getElementById('guest-name').textContent = formattedName;
+      
+      // Simpan nama tamu di localStorage untuk digunakan di halaman berikutnya
+      localStorage.setItem('guestName', formattedName);
+    }
+    
+    // Countdown - Menggunakan tanggal dari undangan.html (28 September 2025)
+    const weddingDate = new Date('2025-09-28T09:00:00+07:00').getTime();
+    
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+      
+      if (distance < 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    // Update countdown setiap detik
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    // Musik player
+    const musicToggle = document.getElementById('music-toggle');
+    const bgMusic = document.getElementById('bg-music');
+    let isPlaying = true; // Default sudah bermain
+    
+    // Coba memutar musik saat halaman dimuat
+    window.addEventListener('load', function() {
+      // Cek apakah ada status musik dari halaman sebelumnya
+      const savedMusicState = localStorage.getItem('musicState');
+      if (savedMusicState) {
+        const musicState = JSON.parse(savedMusicState);
+        bgMusic.currentTime = musicState.currentTime || 0;
+        
+        // Jika sebelumnya musik dimatikan, matikan sekarang
+        if (!musicState.isPlaying) {
+          bgMusic.pause();
+          musicToggle.classList.remove('playing');
+          isPlaying = false;
+        }
+      }
+      
+      // Coba autoplay musik
+      const playPromise = bgMusic.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.then(_ => {
+          // Autoplay berhasil
+          console.log("Musik autoplay berhasil");
+          musicToggle.classList.add('playing');
+        })
+        .catch(error => {
+          // Autoplay diblokir browser
+          console.log("Autoplay diblokir:", error);
+          musicToggle.classList.remove('playing');
+          isPlaying = false;
+          
+          // Tampilkan notifikasi untuk interaksi pengguna
+          setTimeout(() => {
+            showNotification('Klik tombol musik untuk memutar lagu');
+          }, 3000);
+        });
+      }
+    });
+    
+    // Event listener untuk tombol musik
+    musicToggle.addEventListener('click', function() {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicToggle.classList.remove('playing');
+      } else {
+        bgMusic.play()
+          .then(() => {
+            musicToggle.classList.add('playing');
+          })
+          .catch(error => {
+            console.log('Gagal memutar musik:', error);
+            showNotification('Gagal memutar musik. Silakan coba lagi.');
+          });
+      }
+      
+      isPlaying = !isPlaying;
+      
+      // Simpan status musik
+      localStorage.setItem('musicState', JSON.stringify({
+        isPlaying: isPlaying,
+        currentTime: bgMusic.currentTime
+      }));
+    });
+    
+    // Simpan posisi musik secara berkala
+    setInterval(() => {
+      if (isPlaying) {
+        localStorage.setItem('musicState', JSON.stringify({
+          isPlaying: isPlaying,
+          currentTime: bgMusic.currentTime
+        }));
+      }
+    }, 5000);
+    
+    // Fungsi untuk menampilkan notifikasi
+    function showNotification(message) {
+      // Cek apakah notifikasi sudah ada
+      if (document.querySelector('.notification')) return;
+      
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background: rgba(18, 52, 88, 0.8);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-size: 14px;
+        z-index: 1000;
+        animation: fadeInUp 0.5s ease;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Hapus notifikasi setelah 3 detik
+      setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.5s ease forwards';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 500);
+      }, 3000);
+    }
+    
+    // Animasi fadeOut
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Simpan status musik saat meninggalkan halaman
+    window.addEventListener('beforeunload', function() {
+      localStorage.setItem('musicState', JSON.stringify({
+        isPlaying: isPlaying,
+        currentTime: bgMusic.currentTime
+      }));
+    });
+  </script>
+</body>
+</html>
