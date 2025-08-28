@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Konfirmasi Kehadiran</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: rgb(18, 52, 88);
+      --secondary: rgb(212, 201, 190);
+      --accent: rgb(173, 162, 151);
+      --dark: rgb(3, 3, 3);
+      --light: rgb(241, 239, 236);
+      --radius: 8px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f5f7fa;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 20px 0;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo i {
+      font-size: 28px;
+      color: var(--secondary);
+    }
+
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info i {
+      font-size: 20px;
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .stat-icon {
+      font-size: 36px;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .controls {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(18, 52, 88, 0.1);
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    .filter-select {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(18, 52, 88, 0.1);
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #0d2c4a;
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #218838;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      color: var(--primary);
+      position: sticky;
+      top: 0;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+
+    tr:hover {
+      background-color: #f1f3f5;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-hadir {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-tidak-hadir {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f9fa;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-icon:hover {
+      background: #e9ecef;
+    }
+
+    .btn-icon.view {
+      color: #17a2b8;
+    }
+
+    .btn-icon.delete {
+      color: #dc3545;
+    }
+
+    .empty-state {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .empty-state i {
+      font-size: 64px;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 20px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      color: #999;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .detail-row {
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      width: 150px;
+      color: var(--dark);
+    }
+
+    .detail-value {
+      flex: 1;
+    }
+
+    .message-box {
+      background: #f8f9fa;
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        min-width: 100%;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 600px;
+      }
+
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-heart"></i>
+        <h1>Admin Pernikahan</h1>
+      </div>
+      <div class="user-info">
+        <i class="fas fa-user-circle"></i>
+        <span>Administrator</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Statistik Cards -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-number" id="total-rsvp">0</div>
+        <div class="stat-label">Total Konfirmasi</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-user-check"></i>
+        </div>
+        <div class="stat-number" id="hadir-count">0</div>
+        <div class="stat-label">Hadir</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-user-times"></i>
+        </div>
+        <div class="stat-number" id="tidak-hadir-count">0</div>
+        <div class="stat-label">Tidak Hadir</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-number" id="total-guests">0</div>
+        <div class="stat-label">Total Tamu</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Cari nama atau WhatsApp...">
+      </div>
+      <select class="filter-select" id="attendance-filter">
+        <option value="">Semua Kehadiran</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+      </select>
+      <button class="btn btn-primary" onclick="refreshData()">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+      <button class="btn btn-success" onclick="exportData()">
+        <i class="fas fa-download"></i> Export CSV
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Data Konfirmasi Kehadiran</div>
+      </div>
+      <div id="table-content">
+        <!-- Table content will be generated by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="empty-state" style="display: none;">
+      <i class="fas fa-inbox"></i>
+      <h3>Belum Ada Data</h3>
+      <p>Belum ada tamu yang mengkonfirmasi kehadiran.</p>
+    </div>
+
+    <!-- Modal Detail -->
+    <div id="detail-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Detail Konfirmasi</div>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- Modal content will be generated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2025 Pernikahan Dimas & Ella. All rights reserved.</p>
+  </div>
+
+  <script>
+    // Data storage
+    let rsvpData = [];
+    let filteredData = [];
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      loadData();
+      setupEventListeners();
+    });
+
+    // Setup event listeners
+    function setupEventListeners() {
+      document.getElementById('search-input').addEventListener('input', filterData);
+      document.getElementById('attendance-filter').addEventListener('change', filterData);
+    }
+
+    // Load data from localStorage
+    function loadData() {
+      // Get data from localStorage
+      const storedData = localStorage.getItem('rsvpSubmissions');
+      
+      if (storedData) {
+        rsvpData = JSON.parse(storedData);
+      } else {
+        rsvpData = [];
+      }
+      
+      // Apply initial filter
+      filterData();
+    }
+
+    // Filter data based on search and attendance filter
+    function filterData() {
+      const searchTerm = document.getElementById('search-input').value.toLowerCase();
+      const attendanceFilter = document.getElementById('attendance-filter').value;
+      
+      // Filter data
+      filteredData = rsvpData.filter(item => {
+        // Search filter
+        const matchesSearch = searchTerm === '' || 
+          item.nama.toLowerCase().includes(searchTerm) || 
+          item.whatsapp.toLowerCase().includes(searchTerm);
+        
+        // Attendance filter
+        const matchesAttendance = attendanceFilter === '' || 
+          item.kehadiran === attendanceFilter;
+        
+        return matchesSearch && matchesAttendance;
+      });
+      
+      // Display data
+      displayData();
+      updateStats();
+    }
+
+    // Display data in table
+    function displayData() {
+      const tableContent = document.getElementById('table-content');
+      const emptyState = document.getElementById('empty-state');
+      
+      if (filteredData.length === 0) {
+        tableContent.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+      
+      emptyState.style.display = 'none';
+      
+      let tableHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Nama</th>
+              <th>WhatsApp</th>
+              <th>Kehadiran</th>
+              <th>Jumlah Tamu</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      filteredData.forEach((item, index) => {
+        const date = new Date(item.timestamp);
+        const formattedDate = date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+        
+        tableHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${formattedDate}</td>
+            <td>${item.nama}</td>
+            <td>${item.whatsapp}</td>
+            <td>
+              <span class="status-badge ${item.kehadiran === 'Hadir' ? 'status-hadir' : 'status-tidak-hadir'}">
+                ${item.kehadiran}
+              </span>
+            </td>
+            <td>${item.jumlah_tamu}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-icon view" onclick="viewDetail(${index})" title="Lihat Detail">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn-icon delete" onclick="deleteItem(${index})" title="Hapus">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+      
+      tableHTML += `
+          </tbody>
+        </table>
+      `;
+      
+      tableContent.innerHTML = tableHTML;
+    }
+
+    // Update statistics
+    function updateStats() {
+      let hadirCount = 0;
+      let tidakHadirCount = 0;
+      let totalGuests = 0;
+      
+      rsvpData.forEach(item => {
+        if (item.kehadiran === 'Hadir') {
+          hadirCount++;
+          totalGuests += parseInt(item.jumlah_tamu || 0);
+        } else if (item.kehadiran === 'Tidak Hadir') {
+          tidakHadirCount++;
+        }
+      });
+      
+      document.getElementById('total-rsvp').textContent = rsvpData.length;
+      document.getElementById('hadir-count').textContent = hadirCount;
+      document.getElementById('tidak-hadir-count').textContent = tidakHadirCount;
+      document.getElementById('total-guests').textContent = totalGuests;
+    }
+
+    // View detail
+    function viewDetail(index) {
+      const item = filteredData[index];
+      const modalBody = document.getElementById('modal-body');
+      
+      const date = new Date(item.timestamp);
+      const formattedDate = date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID');
+      
+      modalBody.innerHTML = `
+        <div class="detail-row">
+          <div class="detail-label">Tanggal</div>
+          <div class="detail-value">${formattedDate}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Nama</div>
+          <div class="detail-value">${item.nama}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">WhatsApp</div>
+          <div class="detail-value">${item.whatsapp}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Kehadiran</div>
+          <div class="detail-value">
+            <span class="status-badge ${item.kehadiran === 'Hadir' ? 'status-hadir' : 'status-tidak-hadir'}">
+              ${item.kehadiran}
+            </span>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Jumlah Tamu</div>
+          <div class="detail-value">${item.jumlah_tamu}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Pesan</div>
+          <div class="detail-value">
+            ${item.pesan ? `
+              <div class="message-box">
+                ${item.pesan}
+              </div>
+            ` : '-'}
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('detail-modal').style.display = 'flex';
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('detail-modal').style.display = 'none';
+    }
+
+    // Delete item
+    function deleteItem(index) {
+      if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+        // Find the original index in rsvpData
+        const itemToDelete = filteredData[index];
+        const originalIndex = rsvpData.findIndex(item => 
+          item.timestamp === itemToDelete.timestamp && 
+          item.nama === itemToDelete.nama
+        );
+        
+        if (originalIndex !== -1) {
+          // Remove from rsvpData
+          rsvpData.splice(originalIndex, 1);
+          
+          // Update localStorage
+          localStorage.setItem('rsvpSubmissions', JSON.stringify(rsvpData));
+          
+          // Refresh data
+          filterData();
+          
+          // Show notification
+          showNotification('Data berhasil dihapus');
+        }
+      }
+    }
+
+    // Refresh data
+    function refreshData() {
+      loadData();
+      showNotification('Data berhasil diperbarui');
+    }
+
+    // Export data to CSV
+    function exportData() {
+      if (rsvpData.length === 0) {
+        showNotification('Tidak ada data untuk diekspor');
+        return;
+      }
+      
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "No,Tanggal,Nama,WhatsApp,Kehadiran,Jumlah Tamu,Pesan\n";
+      
+      rsvpData.forEach((item, index) => {
+        const date = new Date(item.timestamp);
+        const formattedDate = date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID');
+        
+        // Escape quotes in message
+        const message = item.pesan ? item.pesan.replace(/"/g, '""') : '';
+        
+        csvContent += `${index + 1},"${formattedDate}","${item.nama}","${item.whatsapp}","${item.kehadiran}",${item.jumlah_tamu},"${message}"\n`;
+      });
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "konfirmasi_kehadiran_" + new Date().toISOString().slice(0, 10) + ".csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      showNotification('Data berhasil diekspor');
+    }
+
+    // Show notification
+    function showNotification(message) {
+      // Check if notification already exists
+      if (document.querySelector('.notification')) return;
+      
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 30px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        animation: slideInRight 0.5s ease;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.5s ease forwards';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 500);
+      }, 3000);
+    }
+
+    // Add CSS for notification animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('detail-modal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
