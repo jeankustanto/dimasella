@@ -1213,15 +1213,24 @@
       rsvpForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Simpan data form ke localStorage (untuk demo)
+        // Ambil data form
         const formData = new FormData(rsvpForm);
         const formDataObj = {};
         formData.forEach((value, key) => {
           formDataObj[key] = value;
         });
         
-        // Simpan ke localStorage
-        localStorage.setItem('rsvpData', JSON.stringify(formDataObj));
+        // Tambahkan timestamp
+        formDataObj.timestamp = new Date().toISOString();
+        
+        // Ambil data yang sudah ada di localStorage
+        let rsvpSubmissions = JSON.parse(localStorage.getItem('rsvpSubmissions') || '[]');
+        
+        // Tambahkan data baru
+        rsvpSubmissions.push(formDataObj);
+        
+        // Simpan kembali ke localStorage
+        localStorage.setItem('rsvpSubmissions', JSON.stringify(rsvpSubmissions));
         
         // Tampilkan notifikasi sukses
         showNotification('Terima kasih! Konfirmasi kehadiran Anda telah terkirim.');
