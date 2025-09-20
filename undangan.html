@@ -575,7 +575,58 @@
       height: 100%;
       border: none;
     }
+
+/* Map Button */
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 25px;
+  background: var(--primary);
+  color: var(--light);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 8px 20px rgba(18, 52, 88, 0.3);
+  text-decoration: none;
+  margin: 20px auto 0;
+}
     
+/* Map Button */
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 25px;
+  background: var(--primary);
+  color: var(--light);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 8px 20px rgba(18, 52, 88, 0.3);
+  text-decoration: none;
+  margin: 20px auto 0;
+}
+
+.map-button:hover {
+  background: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(173, 162, 151, 0.4);
+}
+
+.map-button i {
+  font-size: 18px;
+}
     /* Footer */
     .footer {
       text-align: center;
@@ -829,8 +880,8 @@
           <h3 class="couple-name">Dimas Putra Wicaksono</h3>
           <div class="couple-parents">
             <strong>Putra Kedua:</strong><br>
-            Bapak Imam Supardi (Tolo)<br>
-            & Ibu Suhermin (Suher)<br>Wonoayu – Sidoarjo
+            Bapak Imam Supardi <br>
+            & Ibu Suhermin <br>Wonoayu – Sidoarjo
           </div>
         </div>
         
@@ -1039,12 +1090,20 @@
       <div class="map-container">
        <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3956.5373301872187!2d112.61617507500095!3d-7.405621992604479!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zN8KwMjQnMjAuMiJTIDExMsKwMzcnMDcuNSJF!5e0!3m2!1sid!2sid!4v1757176672403!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
+
+       <!-- Tombol Buka di Google Maps -->
+      <div style="text-align: center;">
+        <a href="https://www.google.com/maps/dir/?api=1&destination=-7.405621992604479,112.61617507500095" target="_blank" class="map-button">
+          <i class="fas fa-map-marked-alt"></i> Buka di Google Maps
+        </a>
+      </div>
+      <!--
       <div style="text-align: center; margin-top: 20px;">
         <p style="margin-bottom: 10px;"><strong>Lokasi Resepsi</strong></p>
         <p>Dsn. Sono Candi RT. 01 RW. 02</p>
         <p>Ds. Candinegoro, Kec. Wonoayu – Sidoarjo</p>
         <p><i class="fas fa-phone-alt"></i> 0812-3456-7890</p>
-      </div>
+      </div> -->
     </section>
     
     <!-- Footer -->
@@ -1300,6 +1359,7 @@
   </script>
 </body>
 </html>
+
 
 
 
