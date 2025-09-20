@@ -32,8 +32,19 @@
       background:url('bg.jpg') center/cover no-repeat fixed;
       position: relative;
       overflow-x: hidden;
+
+      /* ====== Anti Copy Text ====== */
+      -webkit-user-select: none; /* Chrome, Safari */
+      -moz-user-select: none;    /* Firefox */
+      -ms-user-select: none;     /* IE/Edge */
+      user-select: none;         /* Standar */
     }
     
+    /* ====== Anti Copy untuk Gambar ====== */
+    img {
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
     /* Overlay biru tua (sesuai undangan.html) */
     body::before {
       content: '';
@@ -705,8 +716,29 @@
         currentTime: bgMusic.currentTime
       }));
     });
+
+    // ====== Disable Klik Kanan ======
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    alert('Maaf, klik kanan dinonaktifkan di halaman ini.');
+  });
+
+  // ====== Disable Shortcut Keyboard ======
+  document.addEventListener('keydown', function(e) {
+    // Ctrl + C, Ctrl + U, Ctrl + S, F12
+    if ((e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's')) || e.key === 'F12') {
+      e.preventDefault();
+      alert('Maaf, tindakan ini tidak diizinkan.');
+    }
+  });
+
+  // ====== Mencegah Drag and Drop pada Gambar ======
+  document.addEventListener('dragstart', function(e) {
+    e.preventDefault();
+  });
   </script>
 </body>
 
 </html>
+
 
