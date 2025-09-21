@@ -1272,42 +1272,48 @@
     });
     
     // Form submission handling
-    const rsvpForm = document.getElementById('rsvp-form');
-    if (rsvpForm) {
-      rsvpForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Ambil data form
-        const formData = new FormData(rsvpForm);
-        const formDataObj = {};
-        formData.forEach((value, key) => {
-          formDataObj[key] = value;
-        });
-        
-        // Tambahkan timestamp
-        formDataObj.timestamp = new Date().toISOString();
-        
-        // Ambil data yang sudah ada di localStorage
-        let rsvpSubmissions = JSON.parse(localStorage.getItem('rsvpSubmissions') || '[]');
-        
-        // Tambahkan data baru
-        rsvpSubmissions.push(formDataObj);
-        
-        // Simpan kembali ke localStorage
-        localStorage.setItem('rsvpSubmissions', JSON.stringify(rsvpSubmissions));
-        
-        // Tampilkan notifikasi sukses
-        showNotification('Terima kasih! Konfirmasi kehadiran Anda telah terkirim.');
-        
-        // Reset form
+const rsvpForm = document.getElementById('rsvp-form');
+if (rsvpForm) {
+  rsvpForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Ambil data form
+    const formData = new FormData(rsvpForm);
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value;
+    });
+    
+    // Tambahkan timestamp
+    formDataObj.timestamp = new Date().toISOString();
+
+    // ======= Kirim ke Google Apps Script =======
+    fetch("PASTE_URL_WEB_APP_DISINI", {
+      method: "POST",
+      body: JSON.stringify(formDataObj),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === "success") {
+        showNotification('Terima kasih! Konfirmasi kehadiran Anda berhasil disimpan.');
         rsvpForm.reset();
-        
-        // Isi kembali nama tamu jika ada
         if (guestName) {
           document.getElementById('name').value = guestName;
         }
-      });
-    }
+      } else {
+        showNotification('Gagal menyimpan data. Coba lagi.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showNotification('Terjadi kesalahan saat mengirim data.');
+    });
+  });
+}
+
     
     // Fungsi untuk menyalin nomor rekening
     document.querySelectorAll('.copy-btn').forEach(button => {
@@ -1358,6 +1364,7 @@
   </script>
 </body>
 </html>
+
 
 
 
