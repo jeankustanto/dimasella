@@ -1288,7 +1288,7 @@ if (rsvpForm) {
     formDataObj.timestamp = new Date().toISOString();
 
     // ======= Kirim ke Google Apps Script =======
-    fetch("PASTE_URL_WEB_APP_DISINI", {
+    fetch("https://dimasella.netlify.app/undangan", {
       method: "POST",
       body: JSON.stringify(formDataObj),
       headers: {
@@ -1364,6 +1364,7 @@ if (rsvpForm) {
   </script>
 </body>
 </html>
+
 
 
 
