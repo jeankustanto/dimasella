@@ -746,39 +746,11 @@
   document.addEventListener('dragstart', function(e) {
     e.preventDefault();
   });
-
-    // Form submission handling
-    const rsvpForm = document.getElementById('rsvp-form');
-    if (rsvpForm) {
-      rsvpForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Simpan data form ke localStorage (untuk demo)
-        const formData = new FormData(rsvpForm);
-        const formDataObj = {};
-        formData.forEach((value, key) => {
-          formDataObj[key] = value;
-        });
-        
-        // Simpan ke localStorage
-        localStorage.setItem('rsvpData', JSON.stringify(formDataObj));
-        
-        // Tampilkan notifikasi sukses
-        showNotification('Terima kasih! Konfirmasi kehadiran Anda telah terkirim.');
-        
-        // Reset form
-        rsvpForm.reset();
-        
-        // Isi kembali nama tamu jika ada
-        if (guestName) {
-          document.getElementById('name').value = guestName;
-        }
-      });
-    }
   </script>
 </body>
 
 </html>
+
 
 
 
